@@ -1,19 +1,16 @@
-recommendations = {
-    "Death Note": [
-        "Monster",
-        "Code Geass",
-        "Steins;Gate"
-    ],
+anime_db = {
+    "Death Note": {
+        "genres": [
+            "Thriller",
+            "Mystery",
+            "Psychological"
+        ]
+    },
 
-    "Attack on Titan": [
-        "Vinland Saga",
-        "86",
-        "Tokyo Ghoul"
-    ],
-
-    "Naruto": [
-        "Bleach",
-        "Black Clover",
-        "One Piece"
-    ]
+    "Monster": {
+        "genres": [
+            "Thriller",
+            "Psychological"
+        ]
+    }
 }

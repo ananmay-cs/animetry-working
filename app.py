@@ -1,23 +1,31 @@
 from anime_db import anime_db
 from ml_recommender import recommend
+from anime_api import search_anime
 
 anime_lookup = {
     anime.lower(): anime
     for anime in anime_db
 }
 
-user_input = input("Enter anime: ").strip().lower()
+user_input = input("Enter anime: ").strip()
 
-if user_input in anime_lookup:
+api_data = search_anime(user_input)
 
-    anime = anime_lookup[user_input]
+if api_data:
 
-    print(f"\nRating: {anime_db[anime]['rating']}")
+    print(f"\nTitle: {api_data['title']}")
+    print(f"Rating: {api_data['score']}")
+    print(f"Episodes: {api_data['episodes']}")
 
-    print("\nGenres:")
+    print("\nSynopsis:")
+    print(api_data['synopsis'][:300] + "...")
 
-    for genre in anime_db[anime]["genres"]:
-        print("-", genre)
+else:
+    print("Could not fetch online data.")
+
+if user_input.lower() in anime_lookup:
+
+    anime = anime_lookup[user_input.lower()]
 
     print("\nML Recommendations:")
 
@@ -25,12 +33,3 @@ if user_input in anime_lookup:
 
     for anime_name, score in recommendations:
         print(f"- {anime_name} ({score}% match)")
-
-else:
-
-    print("\nAnime not found.")
-
-    print("\nAvailable anime:")
-
-    for anime in sorted(anime_db.keys()):
-        print("-", anime)

@@ -1,4 +1,5 @@
 from anime_db import anime_db
+from ml_recommender import recommend
 
 anime = input("Enter anime: ")
 
@@ -11,10 +12,12 @@ if anime in anime_db:
     for genre in anime_db[anime]["genres"]:
         print("-", genre)
 
-    print("\nRecommendations:")
+    print("\nML Recommendations:")
 
-    for rec in anime_db[anime]["recommendations"]:
-        print("-", rec)
+    recommendations = recommend(anime)
+
+    for item in recommendations:
+        print("-", item)
 
 else:
     print("Anime not found")

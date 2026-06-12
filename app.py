@@ -1,35 +1,63 @@
 from anime_db import anime_db
-from ml_recommender import recommend
 from anime_api import search_anime
+from ml_recommender import recommend
 
 anime_lookup = {
     anime.lower(): anime
     for anime in anime_db
 }
 
-user_input = input("Enter anime: ").strip()
+print("\n🎌 Welcome to Animetry")
+print("-" * 40)
 
-api_data = search_anime(user_input)
+while True:
 
-if api_data:
+    query = input(
+        "\nEnter an anime (or 'quit'): "
+    ).strip()
 
-    print(f"\nTitle: {api_data['title']}")
-    print(f"Rating: {api_data['score']}")
-    print(f"Episodes: {api_data['episodes']}")
+    if query.lower() == "quit":
+        print("\nThanks for using Animetry! 👋")
+        break
 
-    print("\nSynopsis:")
-    print(api_data['synopsis'][:300] + "...")
+    anime_data = search_anime(query)
 
-else:
-    print("Could not fetch online data.")
+    if not anime_data:
+        print("\n❌ Anime not found.")
+        continue
 
-if user_input.lower() in anime_lookup:
+    print("\n" + "=" * 50)
+    print(f"🎌 {anime_data['title']}")
+    print("=" * 50)
 
-    anime = anime_lookup[user_input.lower()]
+    print(f"⭐ Rating: {anime_data['score']}")
+    print(f"📺 Episodes: {anime_data['episodes']}")
 
-    print("\nML Recommendations:")
+    print("\n📖 Synopsis:")
 
-    recommendations = recommend(anime)
+    synopsis = anime_data.get("synopsis")
 
-    for anime_name, score in recommendations:
-        print(f"- {anime_name} ({score}% match)")
+    if synopsis:
+        print(synopsis[:300] + "...")
+    else:
+        print("No synopsis available.")
+
+    anime_name = anime_lookup.get(query.lower())
+
+    if anime_name:
+
+        print("\n🤖 Recommended For You")
+
+        recommendations = recommend(anime_name)
+
+        for rec in recommendations:
+            print(
+                f"- {rec['title']} "
+                f"({rec['similarity']}% match)"
+            )
+
+    else:
+        print(
+            "\n⚠️ No ML recommendations available yet "
+            "for this anime."
+        )

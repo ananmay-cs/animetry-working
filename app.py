@@ -1,9 +1,16 @@
 from anime_db import anime_db
 from ml_recommender import recommend
 
-anime = input("Enter anime: ")
+anime_lookup = {
+    anime.lower(): anime
+    for anime in anime_db
+}
 
-if anime in anime_db:
+user_input = input("Enter anime: ").strip().lower()
+
+if user_input in anime_lookup:
+
+    anime = anime_lookup[user_input]
 
     print(f"\nRating: {anime_db[anime]['rating']}")
 
@@ -16,8 +23,14 @@ if anime in anime_db:
 
     recommendations = recommend(anime)
 
-    for item in recommendations:
-        print("-", item)
+    for anime_name, score in recommendations:
+        print(f"- {anime_name} ({score}% match)")
 
 else:
-    print("Anime not found")
+
+    print("\nAnime not found.")
+
+    print("\nAvailable anime:")
+
+    for anime in sorted(anime_db.keys()):
+        print("-", anime)

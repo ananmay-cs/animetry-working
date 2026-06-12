@@ -36,6 +36,12 @@ def recommend(anime_name, top_n=3):
     recommendations = []
 
     for index, score in similarity_scores[1:top_n + 1]:
-        recommendations.append(anime_names[index])
+
+        recommendations.append(
+            (
+                anime_names[index],
+                round(score * 100, 1)
+            )
+        )
 
     return recommendations

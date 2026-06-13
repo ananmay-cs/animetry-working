@@ -1,4 +1,4 @@
-# 🎌 Animetry Working
+# 🎌 Animetry (Working)
 
 Animetry Working is a personal project I'm building to learn Python, APIs, recommendation systems, and machine learning while creating something around anime.
 
